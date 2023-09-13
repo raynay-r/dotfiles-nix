@@ -2,6 +2,12 @@
   description = "The Endgame";
 
   inputs = {
+    #nixos-23-05.url = "github:nixos/nixpkgs/release-23.05";
+    #home-23-05.url = "github:nix-community/home-manager/release-23.05";
+    
+    #nixos.follows = "nixos-23-05";
+    #home.follows = "home-23-05";
+
     nixpkgs = {
       url = "github:nixos/nixpkgs/release-23.05";
     };
@@ -14,7 +20,7 @@
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
-    }
+    };
 
     std = {
       url = "github:divnix/std";
@@ -31,12 +37,12 @@
   };
 
   outputs = {
-    self,
     std,
-    nixpkgs,
+    hive,
+    self,
     ...
   } @ inputs:
-    std.growOn {
+    hive.growOn {
       inherit inputs;
 
       nixpkgsConfig = {
@@ -53,19 +59,40 @@
         with std.blockTypes;
         with hive.blockTypes; [
           # modules implement
-          (functions "systemModules")
+          (functions "nixosModules")
           (functions "homeModules")
+          (functions "devshellModules")
 
           # profiles activate
-          (functions "systemProfiles")
+          (functions "hardwareProfiles")
+          (functions "nixosProfiles")
           (functions "homeProfiles")
+          (functions "devshellProfiles")
+          
+          # suites aggregate profiles 
+          (functions "nixosSuites")
+          (functions "homeSuites")
+          
+          # configurations can be deployed
+          nixosConfigurations
+          homeConfigurations
+
+          # devshells can be entered
+          (devshells "shells")
         ];
     }
-
+    # soil
     {
-
-    };
-
+      devShells = std.harvest self ["shells"];
+      homeModules = hive.pick inputs.self [
+        ["home" "homeModules"]
+        ["home" "homeProfiles"]
+        ["home" "homeSuites"]
+        ["home" "homeConfigurations"]
+      ];
+    }
     {
+      nixosConfigurations = hive.collect self "nixosConfigurations";
+      homeConfigurations = hive.collect self "homeConfigurations";
     };
-};
+}

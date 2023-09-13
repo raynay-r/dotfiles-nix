@@ -1,4 +1,4 @@
 inputs.hive.findLoad {
   inherit inputs cell;
-  block = ./profiles;
+  block = ./.;
 }

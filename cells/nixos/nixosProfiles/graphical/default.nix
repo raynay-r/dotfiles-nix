@@ -1,6 +1,6 @@
 let
-  inherit (inputs) nixpkgs
-{
+  inherit (inputs) nixpkgs;
+in {
   sound.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -26,7 +26,7 @@ let
   };
 
   environment = {
-    systemPackages = with pkgs; [
+    systemPackages = with nixpkgs; [
       brave
       firefox
       feh

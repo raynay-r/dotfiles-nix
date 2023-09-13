@@ -1,10 +1,8 @@
 let
-  l = nixpkgs.lib // builtins
+  pkgs = inputs.nixpkgs;
+  l = pkgs.lib // builtins;
 in
 {
-  # Sets nrdxp.cachix.org binary cache which just speeds up some builds
-  imports = [ ../cachix ];
-
   time.timeZone = "Europe/Vienna";
 
   security.pki.certificates = [
