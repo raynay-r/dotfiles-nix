@@ -4,9 +4,11 @@ in
 {
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
-    forwardX11=true; # Needed for remote buid
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+      X11Forwarding=true; # Needed for remote buid
+    };
   };
 
   # Needed for remote build 

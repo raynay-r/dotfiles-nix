@@ -3,12 +3,12 @@ let
   inherit (inputs) home-manager;
 in {
   vbox = {
-    bee = {
-      home = home-manager;
-      system = "x86_64-linux";
-      pkgs = inputs.nixpkgs;
-    };
-
+    imports = [ 
+      homeSuites.rene
+    ];
+  };
+  
+  beast = {
     imports = [ 
       homeSuites.rene
     ];

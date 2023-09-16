@@ -13,8 +13,8 @@ configuration {
 }
 
 /*****----- Global Properties -----*****/
-@import                          "../_shared/colors.rasi"
-@import                          "../_shared/fonts.rasi"
+@import                          "../shared/colors.rasi"
+@import                          "../shared/fonts.rasi"
 
 /*****----- Main Window -----*****/
 window {

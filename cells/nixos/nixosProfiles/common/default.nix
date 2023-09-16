@@ -103,15 +103,18 @@ in
   nix = {
     # Improve nix store disk usage
     gc.automatic = true;
-    autoOptimiseStore = true;
     optimise.automatic = true;
 
-    # Prevents impurities in builds
-    useSandbox = true;
-
-    # Give root user and wheel group special Nix privileges.
-    trustedUsers = [ "root" "@wheel" ];
-    allowedUsers = [ "@wheel" ];
+    settings = {
+      auto-optimise-store = true;
+      
+      # Prevents impurities in builds
+      sandbox = true;
+      
+      # Give root user and wheel group special Nix privileges.
+      trusted-users = [ "root" "@wheel" ];
+      allowed-users = [ "@wheel" ];
+    };
 
     # Generally useful nix option defaults
     extraOptions = ''
