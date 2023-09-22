@@ -12,6 +12,11 @@ in {
       lua-language-server
     ];
     plugins = with pkgs.vimPlugins; [
+      {
+        plugin = neo-tree-nvim;
+        type = "lua";
+        config = builtins.readFile ./_config/neo-tree.lua;
+      }
       vim-nix
       vim-lastplace
       vim-helm
@@ -20,22 +25,9 @@ in {
       nvim-ts-context-commentstring
       nvim-treesitter-textobjects
       {
-        plugin = nvim-treesitter.withPlugins (p: [
-          p.go
-          p.json
-          p.html
-          p.yaml
-          p.toml
-          p.vim
-          p.lua
-          p.bash
-          p.comment
-          p.dockerfile
-          p.java
-          p.lua
-        ]);
+        plugin = nvim-treesitter.withAllGrammars;
         type = "lua";
-        config = builtins.readFile ./treesitter.lua;
+        config = builtins.readFile ./_config/treesitter.lua;
       }
 /*
       {
@@ -62,24 +54,23 @@ in {
         '';
       }
       {
-        plugin = neo-tree-nvim;
-        config = ''
-          lua << EOF
-            require "neo-tree".setup {
-              close_if_last_window = true,
-
-
-            }
-          EOF
-
-          nnoremap <leader>tt <cmd>Neotree toggle<cr>
-          nnoremap <leader>tf <cmd>Neotree focus<cr>
-        '';
-      }
-      {
         plugin = nvim-cmp;
         type = "lua";
-        config = builtins.readFile ./cmp.lua;
+        config = builtins.readFile ./_config/cmp.lua;
+      }
+      {
+        plugin = neodev-nvim;
+        type = "lua";
+        config = ''
+          require('neodev').setup({
+            override = function(root_dir, library)
+              if root_dir:find("config-nix") == 1 then
+                library.enabled = true
+                library.plugins = true
+              end
+            end,
+          });
+        '';
       }
       {
         plugin = luasnip;
@@ -94,9 +85,35 @@ in {
         plugin = friendly-snippets;
       }
       {
+        plugin = nvim-web-devicons;
+        type= "lua";
+        config = ''
+          require('nvim-web-devicons').setup()
+        '';
+      }
+      {
         plugin = nvim-lspconfig;
         type = "lua";
-        config = builtins.readFile ./lsp.lua;
+        config = ''
+          local lspconfig = require "lspconfig"
+          local util = require "lspconfig/util"
+
+          lspconfig.gopls.setup {
+            cmd = {"${pkgs.gopls}/bin/gopls", "serve"}
+          }
+
+          lspconfig.jdtls.setup {
+            cmd = {"${pkgs.jdt-language-server}/bin/jdt-language-server", "-configuration", "${config.xdg.cacheHome}/jdtls/config", "-data", "${config.xdg.cacheHome}/jdtls/workspace"}
+          }
+
+          lspconfig.lua_ls.setup {
+            cmd = {"${pkgs.lua-language-server}/bin/lua-language-server"}
+          }
+
+          lspconfig.nil_ls.setup {
+            cmd = { "${pkgs.nil}/bin/nil" }
+          }
+        '' + builtins.readFile ./_config/lsp.lua;
       }
     ];
     extraConfig = ''
@@ -111,6 +128,12 @@ in {
         vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
         vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
         vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+        vim.keymap.set('n', "<C-d>", "<C-d>zz", opts)
+        vim.keymap.set('n', "<C-u>", "<C-u>zz", opts)
+        vim.keymap.set('n', "n", "nzzzv", opts)
+        vim.keymap.set('n', "N", "Nzzzv", opts)
+
 
         local signs = {
           { name = "DiagnosticSignError", text = "" },

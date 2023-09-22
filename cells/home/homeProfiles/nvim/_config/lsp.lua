@@ -1,24 +1,3 @@
-local lspconfig = require "lspconfig"
-local util = require "lspconfig/util"
-
-lspconfig.gopls.setup {
-  cmd = {"${pkgs.gopls}/bin/gopls", "serve"}
-}
-
-lspconfig.jdtls.setup {
-  cmd = {"${pkgs.jdt-language-server}/bin/jdt-language-server", "-configuration", "${config.xdg.cacheHome}/jdtls/config", "-data", "${config.xdg.cacheHome}/jdtls/workspace"}
-}
-
-lspconfig.lua_ls.setup {
-  Lua = {
-    version = "LuaJIT",
-    diagnostics = {
-      globals = {'vim'},
-    }
-  },
-  cmd = {"${pkgs.lua-language-server}/bin/lua-language-server"}
-}
-
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     -- See `:help vim.lsp.*` for documentation on any of the below functions

@@ -47,6 +47,7 @@ in
       exa
       lazygit
       ripgrep
+      fzf
       fd
       kubectl
       k9s
@@ -57,6 +58,12 @@ in
       gnupg
       pinentry-curses
       jq
+      tldr
+      cht-sh
+    ];
+
+    pathsToLink = [
+      "/share/zsh"
     ];
 
     variables = {
@@ -68,28 +75,10 @@ in
 
   fonts.fonts = with pkgs; [ nerdfonts ];
 
-  programs.zsh = {
-    enable = true;
-    promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-
-    shellInit = ''
-      zsh-newuser-install() { :; }
-
-      ${l.fileContents ./p10k.zsh}
-
-      eval "$(direnv hook zsh)"
-    '';
-
-    shellAliases = {
-      home = "cd";
-    };
-
-    ohMyZsh = {
-      enable = true;
-    };
-  };
-
   services.pcscd.enable = true;
+
+  programs.zsh.enable = true;
+
   programs.gnupg.agent = {
      enable = true;
      pinentryFlavor = "curses";

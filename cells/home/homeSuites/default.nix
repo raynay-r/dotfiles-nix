@@ -15,6 +15,7 @@ in {
         nvim
         polybar
         rofi
+        zsh
       ];
   };
 }

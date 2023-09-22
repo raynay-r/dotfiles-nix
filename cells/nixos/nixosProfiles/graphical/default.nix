@@ -39,6 +39,8 @@ in {
       pavucontrol
       dracula-theme
       vlc
+      libreoffice
+      zathura
     ];
   };
 
