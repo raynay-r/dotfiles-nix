@@ -12,6 +12,10 @@
       url = "github:nixos/nixpkgs/release-23.05";
     };
 
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,11 +38,18 @@
       url = "github:divnix/hive";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    language-servers = {
+      url = "git+https://git.sr.ht/~bwolf/language-servers.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     std,
     hive,
+    nixpkgs-unstable,
+    language-servers,
     self,
     ...
   } @ inputs:

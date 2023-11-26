@@ -9,78 +9,179 @@ in {
           family = "UbuntuMono Nerd Font Mono";
           style = "Regular";
         };
-        size = 13;
+        size = 10;
       };
       window = {
         opacity = 0.96;
       };
       colors = {
         primary = {
-          background = colors.background;
-          foreground = colors.foreground;
-          bright_foreground = "#ffffff";
+          background = "#1E1E2E";
+          foreground = "#CDD6F4";
+          dim_foreground = "#CDD6F4";
+          bright_foreground = "#CDD6F4";
         };
 
         cursor = {
-          text = "CellBackground";
-          cursor = "CellForeground";
+          text = "#1E1E2E";
+          cursor = "#F5E0DC";
         };
 
         vi_mode_cursor = {
-          text = "CellBackground";
-          cursor = "CellForeground";
-        };
-        footer_bar = {
-          background = colors.background;
-          foreground = colors.foreground;
+          text = "#1E1E2E";
+          cursor = "#B4BEFE";
         };
 
         search = {
           matches = {
-            background = colors.green;
-            foreground = colors.selection;
+            foreground = "#1E1E2E";
+            background = "#A6ADC8";
           };
 
           focused_match = {
-            background = colors.orange;
-            foreground = colors.selection;
+            foreground = "#1E1E2E";
+            background = "#A6E3A1";
           };
 
+          footer_bar = {
+            foreground = "#1E1E2E";
+            background = "#A6ADC8";
+          };
         };
 
         hints = {
           start = {
-            background = colors.background;
-            foreground = colors.yellow;
+            foreground = "#1E1E2E";
+            background = "#F9E2AF";
           };
 
           end = {
-            background = colors.yellow;
-            foreground = colors.background;
+            foreground = "#1E1E2E";
+            background = "#A6ADC8";
           };
         };
-
-        line_indicator = {
-          background = "None";
-          foreground = "None";
-        };
-
+        
         selection = {
-          text = "CellForeground";
-          background = colors.selection;
+          text = "#1E1E2E";
+          background = "#F5E0DC";
         };
 
-        normal = {
-          black = colors.black;
-          red = colors.red;
-          green = colors.green;
-          yellow = colors.yellow;
-          blue = colors.purple;
-          magenta = colors.pink;
-          cyan = colors.cyan;
-          white = colors.foreground;
+        normal = { 
+          green = "#A6E3A1";
+          yellow  ="#F9E2AF";
+          blue = "#89B4FA";
+          magenta = "#F5C2E7";
+          cyan = "#94E2D5";
+          white = "#BAC2DE";
+        };
+
+        bright = {
+          black = "#585B70";
+          red = "#F38BA8";
+          green = "#A6E3A1";
+          yellow = "#F9E2AF";
+          blue = "#89B4FA";
+          magenta = "#F5C2E7";
+          cyan = "#94E2D5";
+          white = "#A6ADC8";
+        };
+
+        dim = {
+          black = "#45475A";
+          red = "#F38BA8";
+          green = "#A6E3A1";
+          yellow = "#F9E2AF";
+          blue = "#89B4FA";
+          magenta = "#F5C2E7";
+          cyan = "#94E2D5";
+          white = "#BAC2DE";
         };
       };
+     # colors = {
+     #   primary = {
+     #     background = "#24273A";
+     #     foreground = "#CAD3F5";
+     #     dim_foreground = "#CAD3F5";
+     #     bright_foreground = "#CAD3F5";
+     #   };
+
+     #   cursor = {
+     #     text = "#24273A";
+     #     cursor = "#F4DBD6";
+     #   };
+
+     #   vi_mode_cursor = {
+     #     text = "#24273A";
+     #     cursor = "#B7BDF8";
+     #   };
+
+     #   search = {
+     #     matches = {
+     #       foreground = "#24273A";
+     #       background = "#A5ADCB";
+     #     };
+
+     #     focused_match = {
+     #       foreground = "#24273A";
+     #       background = "#A5ADCB";
+     #     };
+
+     #     footer_bar = {
+     #       foreground = "#24273A";
+     #       background = "#A5ADCB";
+     #     };
+     #   };
+
+     #   hints = {
+     #     start = {
+     #       foreground = "#24273A";
+     #       background = "#EED49F";
+     #     };
+
+     #     end = {
+     #       foreground = "#24273A";
+     #       background = "#A5ADCB";
+     #     };
+     #   };
+     #   
+     #   selection = {
+     #     text = "#24273A";
+     #     background = "#F4DBD6";
+     #   };
+
+     #   normal = { 
+     #     black = "#494D64";
+     #     red = "#ED8796";
+     #     green = "#A6DA95";
+     #     yellow = "#EED49F";
+     #     blue = "#8AADF4";
+     #     magenta = "#F5BDE6";
+     #     cyan = "#8BD5CA";
+     #     white = "#B8C0E0";
+     #   };
+
+     #   bright = {
+     #     black = "#5B6078";
+     #     red = "#ED8796";
+     #     green = "#A6DA95";
+     #     yellow = "#EED49F";
+     #     blue = "#8AADF4";
+     #     magenta = "#F5BDE6";
+     #     cyan = "#8BD5CA";
+     #     white = "#A5ADCB";
+     #   };
+
+     #   dim = {
+     #     black = "#494D64";
+     #     red = "#ED8796";
+     #     green = "#A6DA95";
+     #     yellow = "#EED49F";
+     #     blue = "#8AADF4";
+     #     magenta = "#F5BDE6";
+     #     cyan = "#8BD5CA";
+     #     white = "#B8C0E0";
+     #   };
+     # };
     };
   };
 }

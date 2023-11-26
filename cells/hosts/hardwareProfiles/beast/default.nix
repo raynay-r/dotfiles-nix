@@ -43,15 +43,20 @@ in {
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.dpi = 164;
+  services.xserver.dpi = 192;
 
   environment.variables = {
-    GDK_SCALE = "2";
+    GDK_SCALE = "1";
     GDK_DPI_SCALE = "0.5";
     _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
   };
 
-  services.xserver.displayManager.setupCommands = ''
-    ${nixpkgs.xorg.xrandr}/bin/xrandr --dpi 164 --output DP-2 --mode 3840x2160 --pos 3840x0 --rotate normal --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal
-  '';
+  services.printing = {
+    enable = true;
+    drivers = [ nixpkgs.hplip ];
+  };
+
+  #services.xserver.displayManager.setupCommands = ''
+  #  ${nixpkgs.xorg.xrandr}/bin/xrandr --dpi 192 --output DP-2 --mode 3840x2160 --pos 3840x0 --rotate normal --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-0 --mode 3840x2160 --pos 7680x0 --rotate normal
+  #'';
 }

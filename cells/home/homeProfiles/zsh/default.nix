@@ -40,10 +40,13 @@ in {
 
       any-nix-shell zsh --info-right | source /dev/stdin
       eval "$(direnv hook zsh)"
+
+      export PATH=$HOME/.krey/bin:$HOME/.local/bin:$PATH
     '';
 
     shellAliases = {
       home = "cd";
+      ec = "cd ~/.config-nix; vim .";
     };
   };
 }

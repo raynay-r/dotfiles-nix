@@ -1,3 +1,5 @@
+{ cell, inputs, ... }:
+
 let
   inherit (cell) homeProfiles;
 in {
@@ -16,6 +18,7 @@ in {
         polybar
         rofi
         zsh
+        tmux
       ];
   };
 }

@@ -29,6 +29,7 @@ in {
     systemPackages = with nixpkgs; [
       brave
       firefox
+      thunderbird
       feh
       imagemagick
       lxde.lxrandr
@@ -41,6 +42,7 @@ in {
       vlc
       libreoffice
       zathura
+      pinentry-gtk2
     ];
   };
 

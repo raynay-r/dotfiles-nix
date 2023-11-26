@@ -98,11 +98,12 @@ in {
       };
 
       workspaceOutputAssign = [
-        { workspace = "1"; output = "DP-2"; }
-        { workspace = "2"; output = "DP-2"; }
-        { workspace = "3"; output = "DP-2"; }
-        { workspace = "9"; output = "DP-4"; }
-        { workspace = "10"; output = "DP-0"; }
+        { workspace = "1"; output = "HDMI-0"; }
+#        { workspace = "1"; output = "DP-2"; }
+#        { workspace = "2"; output = "DP-2"; }
+#        { workspace = "3"; output = "DP-2"; }
+#        { workspace = "9"; output = "DP-4"; }
+#        { workspace = "10"; output = "DP-0"; }
       ];
 
       colors = {
@@ -149,7 +150,8 @@ in {
 
       gaps = {
         inner = 12;
-        outer = -2;
+        outer = 0;
+        #outer = -2; -- commented out until polybar is fixed (polybar version > 3.6.3)
       };
 
       bars = [];
