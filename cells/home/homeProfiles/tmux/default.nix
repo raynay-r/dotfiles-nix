@@ -9,11 +9,10 @@ in {
     clock24 = true;
     keyMode = "vi";
     baseIndex = 1;
-    #plugins = with pkgs.tmuxPlugins; [
-      #fpp
-      #dracula
-      #sensible
-    #];
-    #extraConfig = builtins.readFile ./_config/tmux.conf;
+    plugins = with pkgs.tmuxPlugins; [
+      sensible
+      catppuccin
+    ];
+    extraConfig = builtins.readFile ./_config/tmux.conf;
   };
 }

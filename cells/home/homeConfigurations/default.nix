@@ -1,6 +1,7 @@
+{ cell, inputs, ...}:
+
 let 
   inherit (cell) homeSuites;
-  inherit (inputs) home-manager;
 in {
   vbox = {
     imports = [ 
@@ -9,6 +10,12 @@ in {
   };
   
   beast = {
+    imports = [ 
+      homeSuites.rene
+    ];
+  };
+  
+  tuxedo = {
     imports = [ 
       homeSuites.rene
     ];

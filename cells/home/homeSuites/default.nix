@@ -5,7 +5,7 @@ let
 in {
   rene = {
       home.username = "rene";
-      home.stateVersion = "23.05";
+      home.stateVersion = "23.11";
       home.homeDirectory = "/home/rene";
       
       imports = with homeProfiles; [ 

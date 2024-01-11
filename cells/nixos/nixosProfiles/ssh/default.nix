@@ -1,3 +1,5 @@
+{ inputs, ...}:
+
 let
   inherit (inputs) nixpkgs;
 in

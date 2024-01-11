@@ -1,13 +1,26 @@
 let
   colors = (import ../theme).colors;
+  font = "UbuntuMono Nerd Font Mono";
 in {
   programs.alacritty = {
     enable = true;
     settings = {
       font = {
         normal = {
-          family = "UbuntuMono Nerd Font Mono";
+          family = font;
           style = "Regular";
+        };
+        bold= {
+          family = font;
+          style = "Bold";
+        };
+        italic = {
+          family = font;
+          style = "Italic";
+        };
+        bold_italic = {
+          family = font;
+          style = "Bold Italic";
         };
         size = 10;
       };

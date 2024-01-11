@@ -9,7 +9,7 @@
     #home.follows = "home-23-05";
 
     nixpkgs = {
-      url = "github:nixos/nixpkgs/release-23.05";
+      url = "github:nixos/nixpkgs/release-23.11";
     };
 
     nixpkgs-unstable = {
@@ -17,7 +17,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -38,18 +38,12 @@
       url = "github:divnix/hive";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    language-servers = {
-      url = "git+https://git.sr.ht/~bwolf/language-servers.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
     std,
     hive,
     nixpkgs-unstable,
-    language-servers,
     self,
     ...
   } @ inputs:
@@ -58,6 +52,9 @@
 
       nixpkgsConfig = {
         allowUnfree = true;
+        permittedInsecurePackages = [ 
+          "openssl-1.1.1w"
+        ];
       };
 
       systems = [
@@ -79,11 +76,11 @@
           (functions "nixosProfiles")
           (functions "homeProfiles")
           (functions "devshellProfiles")
-          
           # suites aggregate profiles 
+
           (functions "nixosSuites")
           (functions "homeSuites")
-          
+
           # configurations can be deployed
           nixosConfigurations
           homeConfigurations

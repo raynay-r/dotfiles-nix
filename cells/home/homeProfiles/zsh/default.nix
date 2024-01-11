@@ -12,7 +12,7 @@ in {
     dotDir = ".config/zsh";
     autocd = true;
     enableAutosuggestions = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
 
     history = {
       expireDuplicatesFirst = true;

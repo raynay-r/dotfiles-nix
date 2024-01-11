@@ -3,66 +3,57 @@
 let
   pkgs = inputs.nixpkgs;
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
-  language-servers = inputs.language-servers.packages.x86_64-linux;
 in {
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
-    extraPackages = with pkgs; [
-      gopls
-      jdt-language-server
-      lua-language-server
-    ];
     plugins = with pkgs.vimPlugins; [
-      {
-        plugin = neo-tree-nvim;
-        type = "lua";
-        config = builtins.readFile ./_config/neo-tree.lua;
-      }
       vim-nix
-      vim-lastplace
       vim-helm
+      Jenkinsfile-vim-syntax
+
+      vim-lastplace
+
+      # Treesitter
       nvim-ts-autotag
       nvim-ts-rainbow
       nvim-ts-context-commentstring
       nvim-treesitter-textobjects
       {
-        plugin = unstable.vimPlugins.neorg;
-        type = "lua";
-        config = ''
-          require('neorg').setup {
-            load = {
-              ["core.defaults"] = {},
-              ["core.dirman"] = {
-                config = {
-                  workspaces = {
-                    work = "~/notes/work",
-                    home = "~/notes/home"
-                  }
-                }
-              },
-              ["core.completion"] = {
-                config = {
-                  engine = "nvim-cmp",
-                  name = "[Neorg]"
-                }
-              },
-              ["core.concealer"] = {
-                config = {
-                  folds = true,
-                  icon_preset = "basic",
-                  init_open_folds = "auto"
-                }
-              }
-            }
-          }
-        '';
-      }
-      {
         plugin = nvim-treesitter.withAllGrammars;
         type = "lua";
         config = builtins.readFile ./_config/treesitter.lua;
+      }
+
+      # Productivity and Tools
+      {
+        plugin = FTerm-nvim;
+        type = "lua";
+        config = ''
+          require('FTerm').setup {}
+          vim.keymap.set('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>')
+          vim.keymap.set('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+        '';
+      }
+      {
+        plugin = telescope-nvim;
+        config = ''
+          nnoremap <leader>ff <cmd>Telescope find_files<cr>
+          nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+          nnoremap <leader>fb <cmd>Telescope buffers<cr>
+          nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+        '';
+      }
+      {
+        plugin = neo-tree-nvim;
+        type = "lua";
+        config = builtins.readFile ./_config/neo-tree.lua;
+      }
+      {
+        plugin = unstable.vimPlugins.neorg;
+        type = "lua";
+        config = builtins.readFile ./_config/neorg.lua;
       }
       {
         plugin = vim-table-mode;
@@ -70,6 +61,47 @@ in {
           let g:table_mode_map_prefix = '<leader>r'
         '';
       }
+      {
+        plugin = undotree;
+        config = ''
+          nnoremap <F5> :UndotreeToggle<CR>
+
+          if has("persistent_undo")
+            let target_path = expand('~/.undodir')
+
+             " create the directory and any parent directories
+             " if the location does not exist.
+             if !isdirectory(target_path)
+                 call mkdir(target_path, "p", 0700)
+             endif
+
+             let &undodir=target_path
+             set undofile
+          endif
+        '';
+      }
+      {
+        plugin = unstable.vimPlugins.harpoon2;
+        type = "lua";
+        config = ''
+          local harpoon = require("harpoon")
+          harpoon:setup()
+
+          vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
+          vim.keymap.set("n", "<leader>hs", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+          vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+          vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+          vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+          vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+
+          -- Toggle previous & next buffers stored within Harpoon list
+          vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+          vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+        '';
+      }
+
+      # Appearance
       {
       plugin = nvim-web-devicons;
       type= "lua";
@@ -93,7 +125,7 @@ in {
             transparent_background = true,
             term_colors = true
           })
-          
+
           vim.cmd.colorscheme "catppuccin"
         '';
       }
@@ -105,9 +137,6 @@ in {
           config.indent.tab_char = config.indent.char
           require("ibl").setup()
         '';
-      }
-      {
-        plugin = dracula-nvim;
       }
       {
         plugin = noice-nvim;
@@ -126,8 +155,17 @@ in {
               command_palette = true,
             }
           }
-          
+
           vim.keymap.set('n', '<leader>tm', '<cmd>Noice telescope<cr>', { noremap = true, silent = true })
+        '';
+      }
+      {
+        plugin = nvim-notify;
+        type = "lua";
+        config = ''
+          require("notify").setup({
+            background_colour = "#000000",
+          })
         '';
       }
       {
@@ -150,33 +188,8 @@ in {
           }
         '';
       }
-      {
-        plugin = nvim-notify;
-        type = "lua";
-        config = ''
-          require("notify").setup({
-            background_colour = "#000000",
-          })
-        '';
-      }
-      {
-        plugin = FTerm-nvim;
-        type = "lua";
-        config = ''
-          require('FTerm').setup {}
-          vim.keymap.set('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>')
-          vim.keymap.set('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
-        '';
-      }
-      {
-        plugin = telescope-nvim;
-        config = ''
-          nnoremap <leader>ff <cmd>Telescope find_files<cr>
-          nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-          nnoremap <leader>fb <cmd>Telescope buffers<cr>
-          nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-        '';
-      }
+
+      # LSP, Completion, Formatting, Linting
       {
         plugin = nvim-cmp;
         type = "lua";
@@ -230,7 +243,7 @@ in {
           lspconfig.nil_ls.setup {
             cmd = { "${pkgs.nil}/bin/nil" }
           }
-
+          
           lspconfig.helm_ls.setup {
             filetypes = { "helm" },
             cmd = { "${unstable.helm-ls}/bin/helm_ls", "serve" },
@@ -241,17 +254,21 @@ in {
 
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities.textDocument.completion.completionItem.snippetSupport = true
+          lspconfig.tsserver.setup {
+            capabilities = capabilities,
+            cmd = { "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server", "--stdio" }
+          }
           lspconfig.html.setup {
             capabilities = capabilities,
-            cmd = { "${language-servers.vscode-langservers-extracted}/bin/vscode-html-language-server", "--stdio" },
+            cmd = { "${pkgs.nodePackages.vscode-html-languageserver-bin}/bin/html-languageserver", "--stdio" },
           }
           lspconfig.cssls.setup {
             capabilities = capabilities,
-            cmd = { "${language-servers.vscode-langservers-extracted}/bin/vscode-css-language-server", "--stdio" },
+            cmd = { "${pkgs.nodePackages.vscode-css-languageserver-bin}/bin/css-languageserver", "--stdio" },
           }
           lspconfig.jsonls.setup {
             capabilities = capabilities,
-            cmd = { "${language-servers.vscode-langservers-extracted}/bin/vscode-json-language-server", "--stdio" },
+            cmd = { "${pkgs.nodePackages.vscode-json-languageserver-bin}/bin/json-languageserver", "--stdio" },
           }
         '' + builtins.readFile ./_config/lsp.lua;
       }

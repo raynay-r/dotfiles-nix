@@ -10,4 +10,8 @@ in {
   beast = {
     imports = with nixosProfiles; [common docker graphical ssh vbox-host rene root argo libvirt];
   };
+  
+  tuxedo = {
+    imports = with nixosProfiles; [common docker graphical ssh vbox-host rene root argo libvirt];
+  };
 }

@@ -185,7 +185,7 @@ in
       tmux
       unzip
       bat
-      exa
+      eza
       lazygit
       ripgrep
       fzf
@@ -202,6 +202,7 @@ in
       })
       openshift
       kubeseal
+      gomplate
       pandoc
       gnupg
       pinentry-curses
@@ -224,7 +225,7 @@ in
     shells = with pkgs; [ zsh ];
   };
 
-  fonts.fonts = with pkgs; [ nerdfonts ];
+  fonts.packages = with pkgs; [ nerdfonts ];
 
   services.pcscd.enable = true;
 

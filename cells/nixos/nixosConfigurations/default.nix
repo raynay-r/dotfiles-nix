@@ -1,3 +1,5 @@
+{ cell, inputs, ...}:
+
 let 
   inherit (cell) nixosSuites;
   inherit (inputs.cells.hosts) hardwareProfiles; 
@@ -17,13 +19,13 @@ in {
       overlays = [];
     };
 
-    imports = [ 
+    imports = [
       nixosSuites.vbox 
       hardwareProfiles.vbox
       {home-manager.users.rene = homeConfigurations.vbox;}
     ];
   };
-  
+
   beast = {
     config,
     options,
@@ -35,13 +37,40 @@ in {
     bee.pkgs = import inputs.nixpkgs {
       inherit (inputs.nixpkgs) system;
       config.allowUnfree = true;
+      config.permittedInsecurePackages = [ 
+        "openssl-1.1.1w"
+      ];
       overlays = [];
     };
 
-    imports = [ 
+    imports = [
       nixosSuites.beast
       hardwareProfiles.beast
       {home-manager.users.rene = homeConfigurations.beast;}
+    ];
+  };
+  
+  tuxedo = {
+    config,
+    options,
+    pkgs,
+    ...
+  }: {
+    bee.system = "x86_64-linux";
+    bee.home = inputs.home-manager;
+    bee.pkgs = import inputs.nixpkgs {
+      inherit (inputs.nixpkgs) system;
+      config.allowUnfree = true;
+      config.permittedInsecurePackages = [ 
+        "openssl-1.1.1w"
+      ];
+      overlays = [];
+    };
+
+    imports = [
+      nixosSuites.tuxedo
+      hardwareProfiles.tuxedo
+      {home-manager.users.rene = homeConfigurations.tuxedo;}
     ];
   };
 }

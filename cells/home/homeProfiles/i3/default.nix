@@ -42,6 +42,7 @@ in {
         # change gaps
         "${mod}+g" = "gaps inner current plus 5";
         "${mod}+Shift+g" = "gaps inner current minus 5";
+        "${mod}+q" = "gaps horizontal current toggle 1000";
 
         # Focus
         "${mod}+h" = "focus left";

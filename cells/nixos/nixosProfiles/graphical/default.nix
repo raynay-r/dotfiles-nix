@@ -16,13 +16,12 @@ in {
 
     windowManager.i3 = {
       enable = true;
-      #package = pkgs.i3-gaps;
     };
   };
 
   services.picom = {
     enable = true;
-    #vSync = true;
+    vSync = true;
   };
 
   environment = {
@@ -38,18 +37,20 @@ in {
       xclip
       betterlockscreen
       pavucontrol
-      dracula-theme
+      catppuccin-gtk
       vlc
       libreoffice
+      hunspell
+      hunspellDicts.de_AT
+      hunspellDicts.en_US
       zathura
       pinentry-gtk2
     ];
   };
-
   #fonts.fonts = with pkgs; [ roboto ];
 
   fonts.fontconfig.defaultFonts = {
     monospace = [ "UbuntuMono Nerd Font Mono" ];
-    #sansSerif = [ "Roboto" ];
+    sansSerif = [ "Ubuntu Nerd Font" ];
   };
 }

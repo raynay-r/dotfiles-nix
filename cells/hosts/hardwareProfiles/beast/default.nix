@@ -43,13 +43,13 @@ in {
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.dpi = 192;
+  services.xserver.dpi = 106;
 
-  environment.variables = {
-    GDK_SCALE = "1";
-    GDK_DPI_SCALE = "0.5";
-    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
-  };
+  #environment.variables = {
+  #  GDK_SCALE = "1";
+  #  GDK_DPI_SCALE = "1";
+  #  _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+  #};
 
   services.printing = {
     enable = true;
