@@ -1,10 +1,13 @@
 let
   colors = (import ../theme).colors;
-  font = "UbuntuMono Nerd Font Mono";
+  font = "JetBrainsMono Nerd Font";
 in {
   programs.alacritty = {
     enable = true;
     settings = {
+      env = {
+        TERM = "xterm-256color";
+      };
       font = {
         normal = {
           family = font;
@@ -22,10 +25,18 @@ in {
           family = font;
           style = "Bold Italic";
         };
-        size = 10;
+        size = 14;
+        offset = {
+          x = 0;
+          y = 0;
+        };
+        glyph_offset = {
+          x = 0;
+          y = 0;
+        };
       };
       window = {
-        opacity = 0.96;
+        opacity = 1;
       };
       colors = {
         primary = {

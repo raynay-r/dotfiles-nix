@@ -19,10 +19,17 @@ require('neorg').setup {
         },
         ["core.concealer"] = {
             config = {
-                folds = true,
+                folds = false,
                 icon_preset = "basic",
-                init_open_folds = "auto"
+                init_open_folds = "never"
             }
-        }
+        },
+        ["core.presenter"] = {
+            config = {
+                zen_mode = "zen-mode"
+            }
+        },
+        ["core.export"] = {},
+        ["core.export.markdown"] = {}
     }
 }

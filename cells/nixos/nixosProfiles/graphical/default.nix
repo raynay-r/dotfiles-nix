@@ -29,6 +29,7 @@ in {
       brave
       firefox
       thunderbird
+      nextcloud-client
       feh
       imagemagick
       lxde.lxrandr

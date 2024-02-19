@@ -12,6 +12,6 @@ in {
   };
   
   tuxedo = {
-    imports = with nixosProfiles; [common docker graphical ssh vbox-host rene root argo libvirt];
+    imports = with nixosProfiles; [common docker graphical ssh vbox-host rene root argo libvirt network-manager];
   };
 }

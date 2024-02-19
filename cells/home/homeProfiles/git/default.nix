@@ -1,17 +1,30 @@
+{ inputs, ...}:
+let
+  pkgs = inputs.nixpkgs;
+in
 {
+  home.packages = with pkgs; [
+    dotnet-sdk_7
+  ];
+
   programs.git = {
     enable = true;
 
-    extraConfig = {
-      pull.rebase = false;
-    };
-
-    signing = {
-      key = "0x7975537CD6A40A06";
-    };
-
     userName = "rene";
     userEmail = "rene.raab@gmx.net";
+
+    extraConfig = {
+      pull.rebase = false;
+      credential = {
+        credentialStore = "gpg";
+        helper = "/run/current-system/sw/bin/git-credential-manager";
+        bitbucketAuthModes = "basic";
+        useHttpPath = true;
+      };
+      "credential \"https://git.brz.gv.at/bitbucket\"" = {
+        provider = "bitbucket";
+      };
+    };
 
     aliases = {
       a = "add -p";

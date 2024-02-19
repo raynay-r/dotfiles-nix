@@ -6,7 +6,7 @@ require "neo-tree".setup {
     popup_border_style = "rounded",
     filesystem = {
         hijack_netrw_behavior = "open_default",
-        group_empty_dirs = true
+        --group_empty_dirs = true
     },
     window = {
         position = "float",

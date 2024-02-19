@@ -1,4 +1,5 @@
 let
+  inherit (inputs) nixpkgs;
   inherit (inputs.nixpkgs) lib;
 in {
   imports =
@@ -8,6 +9,8 @@ in {
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "thunderbolt" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
+
+  boot.kernelPackages = nixpkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   boot.loader.systemd-boot.enable = true;
@@ -42,4 +45,10 @@ in {
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableAllFirmware = true;
+
+  #hardware.tuxedo-rs = {
+  #  enable = true;
+  #  tailor-gui.enable = true;
+  #};
 }

@@ -56,7 +56,7 @@ in {
         separator = "|";
         modules-left = "i3";
         modules-center= "cpu memory filesystem network alsa";
-        modules-right = "date";
+        modules-right = "date tray";
       };
 
       "module/alsa" = {
@@ -179,6 +179,13 @@ in {
 
         label-separator = "|";
         label-separator-padding = "2";
+      };
+
+      "module/tray" = {
+        type = "internal/tray";
+
+        format-margin = "8px";
+        tray-spacing = "8px";
       };
     };
   };
