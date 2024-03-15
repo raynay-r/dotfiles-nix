@@ -33,12 +33,16 @@ in {
     enable = true;
     viAlias = true;
     vimAlias = true;
+
+    extraLuaConfig = builtins.readFile ./_config/extra.lua;
+
     plugins = with pkgs.vimPlugins; [
       vim-nix
       vim-helm
       Jenkinsfile-vim-syntax
 
       vim-lastplace
+      vim-sleuth
 
       # Treesitter
       nvim-ts-autotag
@@ -51,39 +55,22 @@ in {
         config = builtins.readFile ./_config/treesitter.lua;
       }
 
-      # Productivity and Tools
+      # Version Control and Local History
       {
-        plugin = FTerm-nvim;
+        plugin = diffview-nvim;
+      }
+      {
+        plugin = neogit;
         type = "lua";
         config = ''
-          require('FTerm').setup {}
-          vim.keymap.set('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>')
-          vim.keymap.set('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+          require('neogit').setup {}
         '';
       }
       {
-        plugin = telescope-nvim;
+        plugin = gitsigns-nvim;
+        type= "lua";
         config = ''
-          nnoremap <leader>ff <cmd>Telescope find_files<cr>
-          nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-          nnoremap <leader>fb <cmd>Telescope buffers<cr>
-          nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-        '';
-      }
-      {
-        plugin = neo-tree-nvim;
-        type = "lua";
-        config = builtins.readFile ./_config/neo-tree.lua;
-      }
-      {
-        plugin = unstable.vimPlugins.neorg;
-        type = "lua";
-        config = builtins.readFile ./_config/neorg.lua;
-      }
-      {
-        plugin = vim-table-mode;
-        config = ''
-          let g:table_mode_map_prefix = '<leader>r'
+          require('gitsigns').setup()
         '';
       }
       {
@@ -105,6 +92,42 @@ in {
           endif
         '';
       }
+
+      # Productivity and Tools
+      {
+        plugin = FTerm-nvim;
+        type = "lua";
+        config = ''
+          require('FTerm').setup {}
+          vim.keymap.set('n', '<A-i>', '<CMD>lua require("FTerm").toggle()<CR>')
+          vim.keymap.set('t', '<A-i>', '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>')
+        '';
+      }
+      {
+        plugin = telescope-nvim;
+        type = "lua";
+        config = builtins.readFile ./_config/telescope.lua;
+      }
+      {
+        plugin = telescope-ui-select-nvim;
+        type = "lua";
+      }
+      {
+        plugin = neo-tree-nvim;
+        type = "lua";
+        config = builtins.readFile ./_config/neo-tree.lua;
+      }
+      {
+        plugin = unstable.vimPlugins.neorg;
+        type = "lua";
+        config = builtins.readFile ./_config/neorg.lua;
+      }
+      {
+        plugin = vim-table-mode;
+        config = ''
+          let g:table_mode_map_prefix = '<leader>r'
+        '';
+      }
       {
         plugin = unstable.vimPlugins.harpoon2;
         type = "lua";
@@ -115,14 +138,15 @@ in {
           vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
           vim.keymap.set("n", "<leader>hs", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-          vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-          vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
-          vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
-          vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+          vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+          vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+          vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+          vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+          vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
 
           -- Toggle previous & next buffers stored within Harpoon list
-          vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
-          vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+          vim.keymap.set("n", "<C-h>", function() harpoon:list():prev() end)
+          vim.keymap.set("n", "<C-l>", function() harpoon:list():next() end)
         '';
       }
       {
@@ -147,13 +171,6 @@ in {
       config = ''
         require('nvim-web-devicons').setup()
       '';
-      }
-      {
-        plugin = gitsigns-nvim;
-        type= "lua";
-        config = ''
-          require('gitsigns').setup()
-        '';
       }
       {
         plugin = catppuccin-nvim;
@@ -230,6 +247,25 @@ in {
 
       # LSP, Completion, Formatting, Linting
       {
+        plugin = conform-nvim;
+        type = "lua";
+        config = ''
+          require("conform").setup({
+            format_on_save = {
+              timout_ms = 500,
+              lsp_fallback = true,
+            },
+            formatters = {
+              --yamlfix = { command = "${pkgs.yamlfix}/bin/yamlfix" },
+            },
+            formatters_by_ft = {
+              yaml = { "yamlfix" },
+              go = { "gofmt" },
+            },
+          })
+        '';
+      }
+      {
         plugin = nvim-cmp;
         type = "lua";
         config = builtins.readFile ./_config/cmp.lua;
@@ -240,9 +276,8 @@ in {
         config = ''
           require('neodev').setup({
             override = function(root_dir, library)
-              if root_dir:find("config-nix", nil, true) then
+              if root_dir:find("config%-nix") then
                 library.enabled = true
-                library.plugins = true
               end
             end,
           });
@@ -291,6 +326,8 @@ in {
             end,
           }
 
+          lspconfig.nushell.setup {}
+
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities.textDocument.completion.completionItem.snippetSupport = true
           lspconfig.tsserver.setup {
@@ -311,70 +348,25 @@ in {
           }
         '' + builtins.readFile ./_config/lsp.lua;
       }
+
+      # Debugging
+      {
+        plugin = nvim-dap-ui;
+        type = "lua";
+      }
+      {
+        plugin = nvim-dap-virtual-text;
+        type = "lua";
+      }
+      {
+        plugin = nvim-dap-go;
+        type = "lua";
+      }
+      {
+        plugin = nvim-dap;
+        type = "lua";
+        config = builtins.readFile ./_config/dap.lua;
+      }
     ];
-    extraConfig = ''
-      set tabstop=4
-      set shiftwidth=4
-      set expandtab
-      set number relativenumber
-
-      lua << EOF
-        local opts = { noremap=true, silent=true }
-        vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-        vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-        vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-
-        vim.keymap.set('n', "<C-d>", "<C-d>zz", opts)
-        vim.keymap.set('n', "<C-u>", "<C-u>zz", opts)
-        vim.keymap.set('n', "n", "nzzzv", opts)
-        vim.keymap.set('n', "N", "Nzzzv", opts)
-
-
-        local signs = {
-          { name = "DiagnosticSignError", text = "" },
-          { name = "DiagnosticSignWarn", text = "" },
-          { name = "DiagnosticSignHint", text = "" },
-          { name = "DiagnosticSignInfo", text = "" },
-          { name = "DapStopped", text = "" },
-          { name = "DapBreakpoint", text = "" },
-          { name = "DapBreakpointRejected", text = "", texthl = "DiagnosticError" },
-          { name = "DapBreakpointCondition", text = "", texthl = "DiagnosticInfo" },
-          { name = "DapLogPoint", text = ".>", texthl = "DiagnosticInfo" },
-        }
-
-        for _, sign in ipairs(signs) do
-          if not sign.texthl then sign.texthl = sign.name end
-          vim.fn.sign_define(sign.name, sign)
-        end
-
-        vim.opt.list = true
-        vim.opt.listchars = {
-          space = "⋅",
-          eol = "↴",
-          tab = "→ ",
-          trail = "•",
-          extends = "❯",
-          precedes = "❮",
-          nbsp = "ﰸ",
-        }
-
-        vim.diagnostic.config({
-          virtual_text = true,
-          signs = true,
-          underline = true,
-          update_in_insert = true,
-          severity_sort = true,
-          float = {
-            focused = false,
-            style = "minimal",
-            border = "rounded",
-            source = "always",
-            header = "",
-            prefix = "",
-          },
-        })
-      EOF
-    '';
   };
 }

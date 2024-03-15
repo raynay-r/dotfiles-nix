@@ -3,7 +3,6 @@
     members = [ "rene" ];
   };
 
-
   virtualisation = {
     virtualbox.host = {
       enable = true;

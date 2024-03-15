@@ -1,7 +1,6 @@
 {cell, inputs, ...}:
 let 
   pkgs = inputs.nixpkgs;
-  unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   lib = inputs.nixpkgs.lib;
 in
 {
@@ -12,9 +11,6 @@ in
   '';
 
   security.pki.certificateFiles = lib.filesystem.listFilesRecursive ./_certs;
-  #security.pki.certificateFiles = [
-  #   (./. + "/_certs/brzCAs/Produktive BRZ CA - P/Generation01/BRZPersonLevel2CA201.cacert.crt")
-  #];
 
   environment = {
     systemPackages = with pkgs; [

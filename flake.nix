@@ -2,12 +2,6 @@
   description = "The Endgame";
 
   inputs = {
-    #nixos-23-05.url = "github:nixos/nixpkgs/release-23.05";
-    #home-23-05.url = "github:nix-community/home-manager/release-23.05";
-    
-    #nixos.follows = "nixos-23-05";
-    #home.follows = "home-23-05";
-
     nixpkgs = {
       url = "github:nixos/nixpkgs/release-23.11";
     };

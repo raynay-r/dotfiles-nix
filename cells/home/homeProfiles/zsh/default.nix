@@ -2,8 +2,9 @@ let
   pkgs = inputs.nixpkgs;
   l = pkgs.lib // builtins;
 in {
-  home.packages = [
-    pkgs.any-nix-shell
+  home.packages = with pkgs; [
+      any-nix-shell
+      zoxide
   ];
 
   programs.zsh = {
@@ -31,8 +32,6 @@ in {
       
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-      source ${pkgs.zsh-z}/share/zsh-z/zsh-z.plugin.zsh
-      source ${pkgs.zsh-bd}/share/zsh-bd/bd.plugin.zsh
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
       
       ${l.fileContents ./_config/p10k.zsh}
@@ -40,6 +39,7 @@ in {
 
       any-nix-shell zsh --info-right | source /dev/stdin
       eval "$(direnv hook zsh)"
+      eval "$(zoxide init --hook none zsh)"
 
       export PATH=$HOME/.krey/bin:$HOME/.local/bin:$PATH
     '';
