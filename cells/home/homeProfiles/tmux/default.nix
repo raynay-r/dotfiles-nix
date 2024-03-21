@@ -17,6 +17,7 @@ in {
     plugins = with pkgs.tmuxPlugins; [
       sensible
       catppuccin
+      tmux-fzf
     ];
     extraConfig = builtins.readFile ./_config/tmux.conf;
   };
