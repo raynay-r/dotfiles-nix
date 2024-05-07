@@ -8,6 +8,8 @@ in
     172.31.2.1 pve01
     172.31.2.2 pve02
     172.31.2.3 pve03
+
+    95.131.196.183 collaborationc9.sibtel.gv.at
   '';
 
   security.pki.certificateFiles = lib.filesystem.listFilesRecursive ./_certs;
@@ -109,7 +111,23 @@ in
       Restart = "always";
     };
   };
-  
+
+  systemd.services.playgrnd = {
+    after = [
+      "network.target"
+    ];
+    wantedBy = [
+      "multi-user.target"
+    ];
+
+    serviceConfig = {
+      Type = "simple";
+      User = "rene";
+      ExecStart = "${pkgs.openssh}/bin/ssh -N -D 9696 root@84.242.14.121";
+      RestartSec = 5;
+      Restart = "always";
+    };
+  };
 
   #networking.wg-quick.interfaces = {
   #  wg0 = {
