@@ -1,0 +1,14 @@
+jump_list = [
+  "~",
+  "~/.config-nix",
+  "~/Projects/argo/openws/deployment/test",
+  "~/Projects/brz/cp-deployment/main",
+]
+
+[[startup_scripts]]
+session_path = "~/code/sesh"
+script_path = "~/.config/sesh/scripts/go"
+
+[[startup_scripts]]
+session_path = "~/code/joshmedeski.com"
+script_path = "~/.config/sesh/scripts/node_dev"

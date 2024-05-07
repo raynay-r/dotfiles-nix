@@ -48,6 +48,7 @@ in
       ranger
     ]) ++ (with unstable; [
       helmfile
+      toml-cli
     ]);
 
     pathsToLink = [

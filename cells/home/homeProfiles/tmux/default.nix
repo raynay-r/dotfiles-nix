@@ -6,6 +6,7 @@ let
 in {
   home.packages = with unstable; [ 
     tuxmux
+    sesh
   ];
 
   programs.tmux = {
@@ -20,5 +21,10 @@ in {
       tmux-fzf
     ];
     extraConfig = builtins.readFile ./_config/tmux.conf;
+  };
+
+  home.file.".config/sesh/sesh.toml" = {
+    source = ./_config/sesh.toml;
+    recursive = true;
   };
 }
