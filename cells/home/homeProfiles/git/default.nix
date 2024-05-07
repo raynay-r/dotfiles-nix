@@ -15,6 +15,9 @@ in
 
     extraConfig = {
       pull.rebase = false;
+      rerere = {
+        enabled = true;
+      };
       credential = {
         credentialStore = "gpg";
         helper = "/run/current-system/sw/bin/git-credential-manager";
