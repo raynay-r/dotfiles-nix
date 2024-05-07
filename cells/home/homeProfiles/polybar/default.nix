@@ -144,9 +144,9 @@ in {
 
         ws-icon-0 = "1;  Browser";
         ws-icon-1 = "2;  Terminal";
-        ws-icon-2 = "3;  IDE";
-        ws-icon-3 = "4;  4";
-        ws-icon-4 = "5;  5";
+        ws-icon-2 = "3;  Notes";
+        ws-icon-3 = "4;  Email";
+        ws-icon-4 = "5;  Chat";
         ws-icon-5 = "6;  6";
         ws-icon-6 = "7;  7";
         ws-icon-7 = "8;  8";
