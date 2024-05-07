@@ -46,6 +46,10 @@ in {
       hunspellDicts.en_US
       zathura
       pinentry-gtk2
+      logseq
+      element-desktop
+      drawio
+      whatsapp-for-linux
     ];
   };
   #fonts.fonts = with pkgs; [ roboto ];
