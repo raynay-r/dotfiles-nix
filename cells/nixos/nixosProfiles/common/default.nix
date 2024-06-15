@@ -46,6 +46,7 @@ in
       git-credential-manager
       ansible
       ranger
+      spectre-cli
     ]) ++ (with unstable; [
       helmfile
       toml-cli
@@ -70,7 +71,7 @@ in
 
   programs.gnupg.agent = {
      enable = true;
-     pinentryFlavor = "curses";
+     pinentryPackage = pkgs.pinentry-curses;
      enableSSHSupport = true;
   };
 

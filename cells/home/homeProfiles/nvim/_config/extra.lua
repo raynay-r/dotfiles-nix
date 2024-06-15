@@ -26,8 +26,8 @@ vim.opt.smartcase = true
 vim.opt.signcolumn = 'yes'
 
 -- Decrease update time
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
+-- vim.opt.updatetime = 250
+-- vim.opt.timeoutlen = 300
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -47,7 +47,7 @@ vim.opt.listchars = {
 }
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+-- vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true

@@ -45,8 +45,8 @@ in {
       vim-sleuth
 
       # Treesitter
+      rainbow-delimiters-nvim
       nvim-ts-autotag
-      nvim-ts-rainbow
       nvim-ts-context-commentstring
       nvim-treesitter-textobjects
       {
@@ -60,7 +60,7 @@ in {
         plugin = diffview-nvim;
       }
       {
-        plugin = neogit;
+        plugin = unstable.vimPlugins.neogit;
         type = "lua";
         config = ''
           require('neogit').setup {}
@@ -221,6 +221,7 @@ in {
         config = ''
           require("notify").setup({
             background_colour = "#000000",
+            stages = "static", -- no fancy animations/transitions to avoid cursor flickering
           })
         '';
       }
