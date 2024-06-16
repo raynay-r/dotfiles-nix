@@ -25,7 +25,7 @@ in {
           family = font;
           style = "Bold Italic";
         };
-        size = 14;
+        size = 10;
         offset = {
           x = 0;
           y = 0;

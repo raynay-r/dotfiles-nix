@@ -13,7 +13,7 @@ in {
   services.xserver = {
     enable = true;
     xkb = {
-      layout = "us";
+      layout = "gb";
     };
 
     windowManager.i3 = {

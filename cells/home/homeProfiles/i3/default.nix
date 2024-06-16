@@ -150,11 +150,8 @@ in {
       };
 
       gaps = {
-        inner = 12;
-        vertical = 220;
-        horizontal = 450;
-        #outer = 0;
-        #outer = -2; -- commented out until polybar is fixed (polybar version > 3.6.3)
+        outer = 10;
+        inner = 10;
       };
 
       bars = [];
