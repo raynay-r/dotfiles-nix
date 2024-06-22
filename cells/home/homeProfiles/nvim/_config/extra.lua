@@ -80,8 +80,8 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- center cursor when scrolling
-vim.keymap.set('n', "<C-d>", "<C-d>zz", opts)
-vim.keymap.set('n', "<C-u>", "<C-u>zz", opts)
+vim.keymap.set('n', "<C-d>", "<C-d>zz", {})
+vim.keymap.set('n', "<C-u>", "<C-u>zz", {})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -92,4 +92,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	callback = function()
 		vim.highlight.on_yank()
 	end,
+})
+
+-- Make sure the filetype for nushell scripts detected properly
+vim.filetype.add({
+	extension = {
+		nu = "nu"
+	}
 })

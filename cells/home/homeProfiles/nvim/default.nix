@@ -23,11 +23,30 @@ let
     url = "http://ftp.vim.org/vim/runtime/spell/de.latin1.sug";
     sha256 = "0mz07d0a68fhxl9vmy1548vnbayvwv1pc24zhva9klgi84gssgwm";
   };
+
+  nushell-treesitter-highlights = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/nushell/tree-sitter-nu/main/queries/nu/highlights.scm";
+    sha256 = "04ddx7sdcigc0yn39air6sd3v7sknkyl4y72357ndkjc3i9jhbxc";
+  };
+
+  nushell-treesitter-indents = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/nushell/tree-sitter-nu/main/queries/nu/indents.scm";
+    sha256 = "14c8ifk92j7z2z2zrpy0zbqa6hq0ysh5rimbispgawkkyv68xgbz";
+  };
+
+  nushell-treesitter-injections = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/nushell/tree-sitter-nu/main/queries/nu/injections.scm";
+    sha256 = "15kh9nb2k2672yzxzydgv9v2aaa6znyq9vcpxkqs6qmzmxl2zhh8";
+  };
 in {
   home.file."${config.xdg.configHome}/nvim/spell/de.utf-8.spl".source = nvim-spell-de-utf8-dictionary;
   home.file."${config.xdg.configHome}/nvim/spell/de.utf-8.sug".source = nvim-spell-de-utf8-suggestions;
   home.file."${config.xdg.configHome}/nvim/spell/de.latin1.spl".source = nvim-spell-de-latin1-dictionary;
   home.file."${config.xdg.configHome}/nvim/spell/de.latin1.sug".source = nvim-spell-de-latin1-suggestions;
+
+  home.file."${config.xdg.configHome}/nvim/queries/nu/highlights.scm".source = nushell-treesitter-highlights;
+  home.file."${config.xdg.configHome}/nvim/queries/nu/indents.scm".source = nushell-treesitter-indents;
+  home.file."${config.xdg.configHome}/nvim/queries/nu/injections.scm".source = nushell-treesitter-injections;
 
   programs.neovim = {
     enable = true;
@@ -50,7 +69,9 @@ in {
       nvim-ts-context-commentstring
       nvim-treesitter-textobjects
       {
-        plugin = nvim-treesitter.withAllGrammars;
+        plugin = (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
+          pkgs.tree-sitter.builtGrammars.tree-sitter-nu
+        ]));
         type = "lua";
         config = builtins.readFile ./_config/treesitter.lua;
       }
@@ -303,6 +324,9 @@ in {
           local lspconfig = require "lspconfig"
           local util = require "lspconfig/util"
 
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities.textDocument.completion.completionItem.snippetSupport = true
+
           lspconfig.gopls.setup {
             cmd = {"${pkgs.gopls}/bin/gopls", "serve"}
           }
@@ -318,7 +342,7 @@ in {
           lspconfig.nil_ls.setup {
             cmd = { "${pkgs.nil}/bin/nil" }
           }
-          
+
           lspconfig.helm_ls.setup {
             filetypes = { "helm" },
             cmd = { "${unstable.helm-ls}/bin/helm_ls", "serve" },
@@ -327,10 +351,6 @@ in {
             end,
           }
 
-          lspconfig.nushell.setup {}
-
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities.textDocument.completion.completionItem.snippetSupport = true
           lspconfig.tsserver.setup {
             capabilities = capabilities,
             cmd = { "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server", "--stdio" }
@@ -346,6 +366,10 @@ in {
           lspconfig.jsonls.setup {
             capabilities = capabilities,
             cmd = { "${pkgs.nodePackages.vscode-json-languageserver-bin}/bin/json-languageserver", "--stdio" },
+          }
+          lspconfig.nushell.setup {
+            capabilities = capabilities,
+            cmd = { "${pkgs.nushell}/bin/nu", "--lsp" },
           }
         '' + builtins.readFile ./_config/lsp.lua;
       }
