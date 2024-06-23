@@ -22,4 +22,18 @@ in {
         nushell
       ];
   };
+  rene-wsl = {
+      home.username = "rene";
+      home.stateVersion = "24.05";
+      home.homeDirectory = "/home/rene";
+      
+      imports = with homeProfiles; [ 
+        direnv
+        git
+        k9s
+        nvim
+        zsh
+        tmux
+      ];
+  };
 }

@@ -32,11 +32,17 @@
       url = "github:divnix/hive";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     std,
     hive,
+    nixos-wsl,
     nixpkgs-unstable,
     self,
     ...

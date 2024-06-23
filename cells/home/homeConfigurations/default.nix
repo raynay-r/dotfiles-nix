@@ -20,4 +20,10 @@ in {
       homeSuites.rene
     ];
   };
+
+  tuxedo-wsl = {
+    imports = [
+      homeSuites.rene-wsl
+    ];
+  };
 }

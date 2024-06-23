@@ -73,4 +73,30 @@ in {
       {home-manager.users.rene = homeConfigurations.tuxedo;}
     ];
   };
+
+  tuxedo-wsl = {
+    config,
+    options,
+    pkgs,
+    ...
+  }: {
+    bee.system = "x86_64-linux";
+    bee.home = inputs.home-manager;
+    bee.wsl = inputs.nixos-wsl;
+    bee.pkgs = import inputs.nixpkgs {
+      inherit (inputs.nixpkgs) system;
+      config.allowUnfree = true;
+      config.permittedInsecurePackages = [ 
+        "openssl-1.1.1w"
+      ];
+      overlays = [];
+    };
+
+    wsl.defaultUser = "rene";
+
+    imports = [
+      nixosSuites.tuxedo-wsl
+      {home-manager.users.rene = homeConfigurations.tuxedo-wsl;}
+    ];
+  };
 }
