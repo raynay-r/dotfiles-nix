@@ -76,8 +76,8 @@
           (functions "nixosProfiles")
           (functions "homeProfiles")
           (functions "devshellProfiles")
-          # suites aggregate profiles 
 
+          # suites aggregate profiles 
           (functions "nixosSuites")
           (functions "homeSuites")
 
@@ -86,12 +86,12 @@
           homeConfigurations
 
           # devshells can be entered
-          (devshells "shells")
+          (devshells "devshells")
         ];
     }
     # soil
     {
-      devShells = std.harvest self ["shells"];
+      devShells = std.harvest self ["shells" "devshells"];
       homeModules = hive.pick inputs.self [
         ["home" "homeModules"]
         ["home" "homeProfiles"]

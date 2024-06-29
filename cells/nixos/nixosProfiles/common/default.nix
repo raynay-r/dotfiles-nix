@@ -86,10 +86,10 @@ in
 
     settings = {
       auto-optimise-store = true;
-      
+
       # Prevents impurities in builds
       sandbox = true;
-      
+
       # Give root user and wheel group special Nix privileges.
       trusted-users = [ "root" "@wheel" ];
       allowed-users = [ "@wheel" ];
@@ -101,6 +101,7 @@ in
       keep-outputs = true
       keep-derivations = true
       fallback = true
+      experimental-features = nix-command flakes
     '';
   };
 }

@@ -7,7 +7,7 @@ in {
       home.username = "rene";
       home.stateVersion = "24.05";
       home.homeDirectory = "/home/rene";
-      
+
       imports = with homeProfiles; [ 
         alacritty 
         direnv
@@ -26,7 +26,7 @@ in {
       home.username = "rene";
       home.stateVersion = "24.05";
       home.homeDirectory = "/home/rene";
-      
+
       imports = with homeProfiles; [ 
         direnv
         git
