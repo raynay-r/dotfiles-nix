@@ -1,34 +1,16 @@
 { cell, inputs, ... }:
 let
-  inherit (inputs.std) lib std;
+  inherit (inputs.std) lib;
 in
 builtins.mapAttrs (_: lib.dev.mkShell) {
   default = {
-    name = "go shell";
-
     imports = [
-      std.devshellProfiles.default
-    ];
-
-    commands = [
-      {
-        category = "tools";
-        package = inputs.nixpkgs.go;
-      }
+      cell.devshellProfiles.go
     ];
   };
   java = {
-    name = "java shell";
-
     imports = [
-      std.devshellProfiles.default
-    ];
-
-    commands = [
-      {
-        category = "tools";
-        package = inputs.nixpkgs.jdk22;
-      }
+      cell.devshellProfiles.java
     ];
   };
 }
