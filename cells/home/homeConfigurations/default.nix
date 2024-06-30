@@ -8,13 +8,13 @@ in {
       homeSuites.rene
     ];
   };
-  
+
   beast = {
     imports = [ 
       homeSuites.rene
     ];
   };
-  
+
   tuxedo = {
     imports = [ 
       homeSuites.rene

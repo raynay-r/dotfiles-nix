@@ -2,11 +2,11 @@
 let 
   inherit (inputs.nixpkgs) lib;
 
-  cfg = config.custom.alacritty;
+  cfg = config.endgame.alacritty;
 in with lib; {
 
-  options.custom.alacritty = {
-    enable = mkEnableOption "custom alacritty config";
+  options.endgame.alacritty = {
+    enable = mkEnableOption "enable endgame alacritty";
     font = mkOption {
       type = types.str;
       default = "JetBrainsMono Nerd Font";

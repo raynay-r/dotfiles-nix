@@ -2,38 +2,41 @@
 
 let
   inherit (cell) homeProfiles;
+
+  rene = {
+    username = "rene";
+    stateVersion = "24.05";
+    homeDirectory = "/home/rene";
+  };
 in {
   rene = {
-      home.username = "rene";
-      home.stateVersion = "24.05";
-      home.homeDirectory = "/home/rene";
+    home = rene;
 
-      imports = with homeProfiles; [ 
-        alacritty 
-        direnv
-        git
-        i3
-        k9s
-        nvim
-        polybar
-        rofi
-        zsh
-        tmux
-        nushell
-      ];
+    imports = with homeProfiles; [
+      alacritty-default
+      direnv-default
+      git-default
+      i3-default
+      k9s-default
+      nvim-default
+      polybar-default
+      rofi-default
+      zsh-default
+      tmux-default
+      nushell-default
+    ];
   };
-  rene-wsl = {
-      home.username = "rene";
-      home.stateVersion = "24.05";
-      home.homeDirectory = "/home/rene";
 
-      imports = with homeProfiles; [ 
-        direnv
-        git
-        k9s
-        nvim
-        zsh
-        tmux
-      ];
+  rene-wsl = {
+    home = rene;
+
+    imports = with homeProfiles; [
+      direnv-default
+      git-default
+      k9s-default
+      nvim-default
+      zsh-default
+      tmux-default
+    ];
   };
 }
